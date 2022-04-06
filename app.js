@@ -1,27 +1,36 @@
 import express from "express";
 import authRouter from "./api/auth.js";
-import userRouter from "./api/users.js";
 import postsRouter from "./api/posts.js";
+import usersRouter from "./api/users.js";
 
 import "dotenv/config";
-
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 
 const app = express();
+
 app.use(bodyParser.json());
 
-//routes
-app.get("/", (req, res) => res.send("Test Social Eyes Server"));
+// routes
+app.get("/", (req, res) => res.send("Hello Social3 Server!"));
 app.use("/api/auth", authRouter);
-app.use("/api/users", userRouter);
 app.use("/api/posts", postsRouter);
+app.use("/api/users", usersRouter);
 
-//connect to Mongo DB
-console.log(process.env.MONGO_URI);
-mongoose.connect(process.env.MONGO_URI, () =>
-  console.log("connected to Mongo")
-);
+// Connect to DataBase
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
-//start server listening on port 5000 or auto selected port
+    console.log("MongoDB connected!!");
+  } catch (err) {
+    console.log("Failed to connect to MongoDB", err);
+  }
+};
+connectDB();
+
+// start the server - listen on port 3000
 app.listen(process.env.PORT || 5000);
