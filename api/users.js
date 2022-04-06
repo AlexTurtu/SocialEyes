@@ -5,6 +5,7 @@ import bcryptjs from "bcryptjs";
 import jsonwebtoken from "jsonwebtoken";
 import config from "config";
 import User from "../models/User.js";
+import "dotenv/config";
 
 const router = express.Router();
 
